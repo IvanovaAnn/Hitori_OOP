@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,22 +35,22 @@ class Board {
     }
 
     public void setRepainting(String[][] repainting){
-        System.out.println("repainting ");
         for (int i = 0; i < countString; i++) {
             for (int j = 0; j < countColumns; j++) {
-                cellObjects[i][j].setColor(repainting[i][j]);
+                cellObjects[i][j].setBaseColor();
             }
         }
-        changingCompanyRepainting(repainting);
+        ChangeColorAndCompanyRepainting(repainting);
     }
 
-    public void changingCompanyRepainting(String[][] stringColor){
+    public void ChangeColorAndCompanyRepainting(String[][] stringColor){
         number_of_companies = 0;
         for (int i = 0; i < countString; i++) {
             for (int j = 0; j < countColumns; j++) {
-                if (stringColor[i][j].equals("Base") ||
-                        stringColor[i][j].equals("Coloring")) cellObjects[i][j].setCompany(0);
-                else defines_cell_company(i, j);
+                Cell cell = cellObjects[i][j];
+                cell.setColor(stringColor[i][j]);
+                cell.setCompany(0);
+                if (cell.isMainColor()) defines_cell_company(i, j);
             }
         }
     }
@@ -76,10 +75,6 @@ class Board {
         return countColumns;
     }
 
-    //public int getSize() {
-    //    return cells.length;
-    //}
-
     public int getCellValue(int row, int col) {
         return cells[row][col];
     }
@@ -103,11 +98,9 @@ class Board {
     }
 
     public void setMain(int row, int col){
-        //System.out.println("boardSetMain " + row + " " + col);
         cellObjects[row][col].setMainColor();
         changesMade();
         defines_cell_company(row, col);
-        //System.out.println("boardSetMain " + row + " " + col + " " + cellObjects[row][col].getCompany());
     }
 
     public boolean isBase(int row, int col) {
@@ -127,18 +120,15 @@ class Board {
         List<Integer> companies = new ArrayList<>();
         for (Cell cell : getAdjacentCells(row, col)){
             if (cell.isMainColor() && !companies.contains(cell.getCompany())){
-                //System.out.println("adj " + cell.isMainColor() + " " + cell.getRow() + " " + cell.getCol() + " " + cell.getCompany());
                 companies.add(cell.getCompany());
             }
         }
         Collections.sort(companies);
         if (companies.isEmpty()) {
             number_of_companies++;
-            //System.out.println("de " + row + " " + col + " " + number_of_companies);
             cellObjects[row][col].setCompany(number_of_companies);
         } else {
             cellObjects[row][col].setCompany(companies.get(0));
-            //System.out.println("dec " + row + " " + col + " " + companies.get(0));
             if (companies.size() > 1) company_change(companies);
         }
     }
@@ -158,7 +148,6 @@ class Board {
         for (int i = 0; i < countString; i++){
             for (int j = 0; j < countColumns; j++){
                 Cell cell = cellObjects[i][j];
-                //System.out.println(i + " " + j + " " + cell.getCompany());
                 if (cell.getCompany() > 1) return false;
             }
         }
@@ -180,22 +169,6 @@ class Board {
         for (int q = 0; q < countColumns; q++)
             if (col != q && (cells[row][q] == cells[row][col])) adjacentCells.add(cellObjects[row][q]);
         return adjacentCells;
-    }
-
-    public List<Cell> getColumns(int row) {
-        List<Cell> rowCells = new ArrayList<>();
-        for (int j = 0; j < countColumns; j++) {
-            rowCells.add(cellObjects[row][j]);
-        }
-        return rowCells;
-    }
-
-    public List<Cell> getString(int col) {
-        List<Cell> colCells = new ArrayList<>();
-        for (int i = 0; i < countString; i++) {
-            colCells.add(cellObjects[i][col]);
-        }
-        return colCells;
     }
 
     public void print() {
