@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class Checker {
@@ -13,7 +12,6 @@ public class Checker {
                 run = false;
                 return run;
             } else if (cell.isBaseColor()){
-                //originalField.setMain(cell.getRow(), cell.getCol());
                 cell.setMainColor();
                 originalField.defines_cell_company(cell.getRow(), cell.getCol());
             }
@@ -40,7 +38,6 @@ public class Checker {
                     run = false;
                     return false;
                 } else if (counter == (adjacents.size() - 1) && !(freePath == null)) {
-                    //originalField.setMain(freePath.getRow(), freePath.getCol());
                     freePath.setMainColor();
                     originalField.defines_cell_company(freePath.getRow(), freePath.getCol());
                 }
