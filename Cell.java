@@ -10,9 +10,6 @@ public class Cell {
         this.row = row;
         this.col = col;
         this.color = new Color();
-        //this.isBlack = false;
-        //this.isRed = false;
-        //this.isWhite = true;
         this.isolated = false;
         company = 0;
     }
@@ -62,7 +59,6 @@ public class Cell {
     }
 
     public void setMainColor() {
-        //System.out.println("setMain " + row + " " + col);
         this.color.setMainСolor();
     }
 
@@ -70,11 +66,7 @@ public class Cell {
         return this.color.isBaseColor();
     }
 
-    public boolean isIsolated() {
-        return this.isolated;
-    }
-
-    public void setIsolated(boolean isolated) {
-        this.isolated = isolated;
+    public void setBaseColor(){
+        this.color.setBaseСolor();
     }
 }
