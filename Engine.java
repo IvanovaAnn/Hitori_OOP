@@ -24,17 +24,13 @@ public class Engine {
                 else if (! originalField.isMain(i, j)) {
                     continue;
                 }
-                //System.out.println("mycells" + i + " " + j);
                 for (Cell cell : originalField.getCompetitorCells(i, j)) {
-                    //System.out.println("cells" + cell.getRow() + " " + cell.getCol());
                     if (run && cell.isBaseColor()) {
                         cell.setColoring();
                         run = Checker.neighbors(cell.getRow(), cell.getCol(), run, originalField, diagonal);
                         run = Checker.Checking_adjacent_red_cell_is_not_blocked(
                                 cell.getRow(), cell.getCol(), run, originalField, diagonal);
                     } else if (!cell.isColoring()) {
-                        //System.out.println("my" + i + " " + j);
-                        //System.out.println("other" + cell.getRow() + " " + cell.getCol());
                         run = false;
                         return false;
                     }
@@ -80,7 +76,6 @@ public class Engine {
                         return false;
                     }
                     else if (counter == (adjacents.size() - 1) && !(freePath == null)){
-                        //originalField.setMain(freePath.getRow(), freePath.getCol());
                         freePath.setMainColor();
                         originalField.defines_cell_company(freePath.getRow(), freePath.getCol());
                     }
